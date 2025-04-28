@@ -8,12 +8,6 @@ A RESTful API built with Laravel for managing tasks, implementing enterprise-lev
 - Create new tasks
 - Update existing tasks
 - Delete tasks
-- Comprehensive validation
-- Repository pattern implementation
-- Service layer abstraction
-- Resource transformation
-- API documentation
-- Unit and Feature testing
 
 
 ## Installation
