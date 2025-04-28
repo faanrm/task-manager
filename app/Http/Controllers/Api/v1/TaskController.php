@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\task\StoreTaskRequest;
 use App\Http\Requests\task\UpdateTaskRequest;
 use App\Http\Resources\task\TaskResource;
-use App\services\TaskService;
+use App\Services\TaskService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
