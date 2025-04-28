@@ -1,66 +1,219 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Task Management API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A RESTful API built with Laravel for managing tasks, implementing enterprise-level best practices.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- List all tasks
+- Create new tasks
+- Update existing tasks
+- Delete tasks
+- Comprehensive validation
+- Repository pattern implementation
+- Service layer abstraction
+- Resource transformation
+- API documentation
+- Unit and Feature testing
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/task-management-api.git
+cd task-management-api
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. Install dependencies:
+```bash
+composer install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+3. Create and configure the environment file:
+```bash
+cp .env.example .env
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. Generate application key:
+```bash
+php artisan key:generate
+```
 
-## Laravel Sponsors
+5. Configure your database connection in the `.env` file:
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=task_management
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+6. Run migrations:
+```bash
+php artisan migrate
+```
 
-### Premium Partners
+7. (Optional) Seed database with sample tasks:
+```bash
+php artisan db:seed --class=TaskSeeder
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Running the Application
 
-## Contributing
+```bash
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The API will be available at `http://localhost:8000`.
 
-## Code of Conduct
+## API Endpoints
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET    | /api/v1/tasks | Get all tasks |
+| POST   | /api/v1/tasks | Create a new task |
+| GET    | /api/v1/tasks/{id} | Get a specific task |
+| PUT/PATCH | /api/v1/tasks/{id} | Update a task |
+| DELETE | /api/v1/tasks/{id} | Delete a task |
 
-## Security Vulnerabilities
+## Request/Response Examples
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Get All Tasks
 
-## License
+**Request:**
+```
+GET /api/v1/tasks
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Response:**
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "Complete project documentation",
+            "description": "Write comprehensive README with API endpoints",
+            "completed": false,
+            "created_at": "2025-04-28T10:30:00.000000Z",
+            "updated_at": "2025-04-28T10:30:00.000000Z"
+        },
+        {
+            "id": 2,
+            "title": "Implement unit tests",
+            "description": "Create tests for repository and service layer",
+            "completed": true,
+            "created_at": "2025-04-28T10:35:00.000000Z",
+            "updated_at": "2025-04-28T11:20:00.000000Z"
+        }
+    ],
+    "message": "Tasks retrieved successfully"
+}
+```
+
+### Create Task
+
+**Request:**
+```
+POST /api/v1/tasks
+Content-Type: application/json
+
+{
+    "title": "New task title",
+    "description": "Task description",
+    "completed": false
+}
+```
+
+**Response:**
+```json
+{
+    "data": {
+        "id": 3,
+        "title": "New task title",
+        "description": "Task description",
+        "completed": false,
+        "created_at": "2025-04-28T12:00:00.000000Z",
+        "updated_at": "2025-04-28T12:00:00.000000Z"
+    },
+    "message": "Task created successfully"
+}
+```
+
+### Get Single Task
+
+**Request:**
+```
+GET /api/v1/tasks/3
+```
+
+**Response:**
+```json
+{
+    "data": {
+        "id": 3,
+        "title": "New task title",
+        "description": "Task description",
+        "completed": false,
+        "created_at": "2025-04-28T12:00:00.000000Z",
+        "updated_at": "2025-04-28T12:00:00.000000Z"
+    },
+    "message": "Task retrieved successfully"
+}
+```
+
+### Update Task
+
+**Request:**
+```
+PUT /api/v1/tasks/3
+Content-Type: application/json
+
+{
+    "title": "Updated task title",
+    "completed": true
+}
+```
+
+**Response:**
+```json
+{
+    "data": {
+        "id": 3,
+        "title": "Updated task title",
+        "description": "Task description",
+        "completed": true,
+        "created_at": "2025-04-28T12:00:00.000000Z",
+        "updated_at": "2025-04-28T12:10:00.000000Z"
+    },
+    "message": "Task updated successfully"
+}
+```
+
+### Delete Task
+
+**Request:**
+```
+DELETE /api/v1/tasks/3
+```
+
+**Response:**
+```json
+{
+    "message": "Task deleted successfully"
+}
+```
+
+## Validation Rules
+
+- **Title**: Required, string, max 255 characters
+- **Description**: Optional, string
+- **Completed**: Optional, boolean
+
+## Testing
+
+Run the tests with:
+
+```bash
+php artisan test
+```
