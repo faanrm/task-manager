@@ -1,6 +1,6 @@
 # Task Management API
 
-A RESTful API built with Laravel for managing tasks, implementing enterprise-level best practices.
+A RESTful API built with Laravel for managing tasks
 
 ## Features
 
