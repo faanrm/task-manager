@@ -7,6 +7,7 @@ use App\Http\Requests\task\StoreTaskRequest;
 use App\Http\Requests\task\UpdateTaskRequest;
 use App\Http\Resources\task\TaskResource;
 use App\Services\TaskService;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,20 +22,32 @@ class TaskController extends Controller
 
     public function index(): JsonResponse
     {
-        $tasks = $this->taskService->getTask();
-        return response()->json([
-            'data' => TaskResource::collection($tasks),
-            'message' => 'Tasks retrieved successfully'
-        ], Response::HTTP_OK);
+        try {
+            $tasks = $this->taskService->getTask();
+            return response()->json([
+                'data' => TaskResource::collection($tasks),
+                'message' => 'Tasks retrieved successfully'
+            ], Response::HTTP_OK);
+        } catch (Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function store(StoreTaskRequest $request): JsonResponse
     {
-        $task = $this->taskService->createTask($request->validated());
-        return response()->json([
-            'data' => new TaskResource($task),
-            'message' => 'Task created successfully'
-        ], Response::HTTP_CREATED);
+        try {
+            $task = $this->taskService->createTask($request->validated());
+            return response()->json([
+                'data' => new TaskResource($task),
+                'message' => 'Task created successfully'
+            ], Response::HTTP_CREATED);
+        } catch (Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function show(int $id): JsonResponse
@@ -49,6 +62,10 @@ class TaskController extends Controller
             return response()->json([
                 'message' => $e->getMessage()
             ], Response::HTTP_NOT_FOUND);
+        } catch (Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -64,6 +81,10 @@ class TaskController extends Controller
             return response()->json([
                 'message' => $e->getMessage()
             ], Response::HTTP_NOT_FOUND);
+        } catch (Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -78,6 +99,10 @@ class TaskController extends Controller
             return response()->json([
                 'message' => $e->getMessage()
             ], Response::HTTP_NOT_FOUND);
+        } catch (Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
