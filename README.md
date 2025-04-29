@@ -15,7 +15,7 @@ A RESTful API built with Laravel for managing tasks
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/task-management-api.git
-cd task-management-api
+cd task-manager
 ```
 
 2. Install dependencies:
