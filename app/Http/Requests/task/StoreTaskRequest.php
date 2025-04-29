@@ -3,8 +3,11 @@
 namespace App\Http\Requests\task;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\JsonResponse;
 
-class StoreTaskRequest extends FormRequest
+class StoreTaskRequest extends FormRequest 
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +16,7 @@ class StoreTaskRequest extends FormRequest
     {
         return true;
     }
-
+    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,5 +29,17 @@ class StoreTaskRequest extends FormRequest
             'description' => 'nullable|string',
             'completed' => 'sometimes|boolean',
         ];
+    }
+    
+    /**
+     * Handle a failed validation attempt.
+     */
+    public function failedValidation(Validator $validator): void
+    {
+        throw new ValidationException($validator, 
+            response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422));
     }
 }
